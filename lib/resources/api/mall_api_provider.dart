@@ -13,8 +13,6 @@ class MallApiProvider {
   static const baseImageUrl = "https://bonus.andreyp.ru/";
   final _url = "https://bonus.andreyp.ru/api/v1/promos?page={номер_страницы}&count={кол-во элементов}";
 
-  MallApiProvider(this.model);
-
   Future<RootResponse> _baseGETfetchWithEvent(
       RootTypes event, String url) async {
     try {
@@ -55,15 +53,12 @@ class MallApiProvider {
 
   final _baseUrl = "https://bonus.andreyp.ru/api/v1/";
 
-  final PromoItem model;
-
   Future<List<PromoItem>> baseGET() async {
     final res = await client.get(Uri.parse(_baseUrl));
     if (res.statusCode == 200) {
       final result = (res.body[1][2] as List).map((e) {
-        return MyModel.fromJson(e);
+        return PromoItem.fromJson(e);
       }).toList();
-      model = result as MyModel?;
       return result;
     }
     return null;
